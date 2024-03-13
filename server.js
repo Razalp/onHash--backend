@@ -22,7 +22,7 @@ app.use(express.json());
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log('Mongo connected'))
-  .catch(() => console.log('Not connected'));
+  .catch(() => console.log('Mongo Not connected'));
 
 const server = http.createServer(app);
 
@@ -79,8 +79,7 @@ socket.on("call:ended", ({ to, from }) => {
 app.get('/', (req, res) => {
   res.send('Hello, Express!');
 });
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join('public')));
 app.use('/api/user', UserRouter);
 app.use('/api/admin', Adminrouter);

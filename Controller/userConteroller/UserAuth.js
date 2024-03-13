@@ -50,7 +50,6 @@ const signIn = async (req, res) => {
         const otp = generateOTP();
         await sendOTPEmail(email, otp);
         
-        // Save user in temporary collection
         const hashedPassword = await bcryptjs.hash(password, SALT_ROUNDS);
         const tempUser = new TempUserSchema({
             username,
@@ -151,7 +150,7 @@ const forgotPassword = async (req, res) => {
             email,
             otp: newOtp,
             createdAt: new Date(),
-            expireAt: new Date(Date.now() + 5 * 60 * 1000), // Set OTP expiration time
+            expireAt: new Date(Date.now() + 5 * 60 * 1000), 
         });
 
         await otpDocument.save();

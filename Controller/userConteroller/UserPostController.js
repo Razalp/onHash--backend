@@ -310,7 +310,32 @@ const userActivties=async (req, res) => {
 };   
 
 
+const MonthlyUsers = async (req, res) => {
+  try {
+    console.log("monthly users");
+    const currentDate = new Date();
+    const monthlyCounts = [];
+    
+    for (let i = 0; i < 12; i++) {
+      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - i + 1, 0);
+      
+      const count = await User.countDocuments({
+        createdAt: {
+          $gte: firstDayOfMonth,
+          $lte: lastDayOfMonth
+        }
+      });
+      
+      monthlyCounts.push({ month: firstDayOfMonth.toLocaleString('default', { month: 'long' }), count });
+    }
 
+    res.json(monthlyCounts.reverse());
+  } catch (error) {
+    console.error('Error fetching monthly users:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
 
@@ -327,6 +352,7 @@ const userActivties=async (req, res) => {
     getStories,
     deletePost,
     randomUser,
-    userActivties
+    userActivties,
+    MonthlyUsers
 
   }

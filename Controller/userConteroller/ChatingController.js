@@ -87,7 +87,7 @@
           createdAt: chat.createdAt
         }));
     
-        io.emit('newChatHistory', formattedChats);
+     
     
         res.json(formattedChats);
       } catch (error) {
